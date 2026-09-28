@@ -1,0 +1,1 @@
+export const APP_NAME = 'CodeTrilha';\nexport const APP_TAGLINE = 'aprenda fazendo';\nexport const APP_DESCRIPTION = 'Aprenda programação com trilhas estruturadas, exercícios práticos e feedback contínuo. Tudo roda no navegador, sem instalações.';\n
