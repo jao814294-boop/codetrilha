@@ -1,0 +1,170 @@
+---
+titulo: Instalando e rodando Python
+descricao: Instale Python, configure seu ambiente e rode o primeiro script.
+secao: Primeiros passos
+ordem: 2
+tempo: 10
+nivel: iniciante
+palavrasChave: ['instalação', 'venv', 'pip', 'terminal', 'IDLE']
+exercicios: []
+---
+
+# Instalando e rodando Python
+
+## Instalando Python
+
+### Windows
+1. Acesse [python.org](https://python.org)
+2. Baixe a versão mais recente (3.12+)
+3. **Importante**: marque "Add Python to PATH" durante a instalação
+4. Clique "Install Now"
+
+### macOS
+```bash
+brew install python3
+```
+Ou baixe de [python.org](https://python.org).
+
+### Linux (Ubuntu/Debian)
+```bash
+sudo apt update
+sudo apt install python3 python3-pip python3-venv
+```
+
+## Verificando a instalação
+
+Abra o terminal/prompt de comando e digite:
+
+```bash
+python --version
+```
+
+Deveria mostrar algo como `Python 3.12.0`.
+
+## Primeiro script: "Olá, mundo"
+
+Crie um arquivo chamado `ola.py`:
+
+```python
+print("Olá, mundo!")
+```
+
+Agora execute no terminal:
+
+```bash
+python ola.py
+```
+
+Saída:
+```
+Olá, mundo!
+```
+
+Parabéns! Você rodou seu primeiro programa Python! 🎉
+
+## Ambiente Virtual (venv)
+
+Um **ambiente virtual** é uma pasta isolada onde você instala bibliotecas específicas de um projeto. Evita conflitos entre projetos.
+
+### Criar um ambiente virtual
+
+```bash
+python -m venv meu_ambiente
+```
+
+Isso cria uma pasta chamada `meu_ambiente`.
+
+### Ativar (Windows)
+
+```bash
+meu_ambiente\Scripts\activate
+```
+
+### Ativar (macOS/Linux)
+
+```bash
+source meu_ambiente/bin/activate
+```
+
+Quando ativado, o terminal mostra `(meu_ambiente)` no início da linha.
+
+<Callout tipo="dica">
+Use **sempre** um ambiente virtual para novos projetos. Evita dores de cabeça.
+</Callout>
+
+## Instalando bibliotecas com pip
+
+**pip** é o gerenciador de pacotes do Python. Permite instalar bibliotecas criadas por outras pessoas.
+
+```bash
+pip install requests
+```
+
+Isso instala a biblioteca `requests` (usada para fazer requisições HTTP).
+
+### Ver bibliotecas instaladas
+
+```bash
+pip list
+```
+
+### Remover uma biblioteca
+
+```bash
+pip uninstall requests
+```
+
+## Três formas de rodar Python
+
+### 1. REPL (lê, avalia, imprime, repete)
+
+Digite `python` no terminal:
+
+```bash
+python
+```
+
+Agora você pode digitar código direto:
+
+```python
+>>> 2 + 2
+4
+>>> print("Teste")
+Teste
+>>> exit()  # sai
+```
+
+Ótimo para testes rápidos.
+
+### 2. Arquivo .py
+
+Crie um arquivo, escreva código, salve e execute:
+
+```bash
+python meu_script.py
+```
+
+### 3. Editores e IDEs
+
+- **VS Code** + extensão Python: moderno e leve
+- **PyCharm**: profissional, mas pesado
+- **Thonny**: simples, ótimo para iniciantes
+- **Jupyter Notebook**: excelente para análise de dados
+
+## Seu primeiro programa um pouco mais legal
+
+```python
+nome = input("Qual é o seu nome? ")
+idade = int(input("Quantos anos você tem? "))
+print(f"Olá, {nome}! Você tem {idade} anos.")
+```
+
+Salve como `saudacao.py` e execute.
+
+## Resumo
+
+- Python está instalado e pronto
+- Use **ambientes virtuais** para cada projeto
+- **pip** instala bibliotecas
+- Você pode rodar código no REPL, em arquivos ou em IDEs
+- Agora vamos aprender **sintaxe básica**

@@ -1,0 +1,284 @@
+---
+titulo: Strings e manipulação de texto
+descricao: Indexação, fatiamento, métodos, f-strings, imutabilidade.
+secao: Fundamentos
+ordem: 6
+tempo: 12
+nivel: iniciante
+palavrasChave: ['strings', 'texto', 'indexação', 'fatiamento', 'f-strings', 'métodos']
+exercicios: []
+---
+
+# Strings e manipulação de texto
+
+## O que é uma string?
+
+Uma **string** é uma sequência de caracteres (letras, números, símbolos).
+
+```python
+nome = "Ana Silva"
+mensagem = 'Olá!'
+vazio = ""
+multilinha = """Linha 1
+Linha 2
+Linha 3"""
+```
+
+Use aspas simples `'` ou duplas `"` — não importa. Escolha uma e seja consistente.
+
+## Indexação: acessar caracteres
+
+Cada caractere tem um índice (posição). **Python começa no 0**.
+
+```python
+texto = "Python"
+#        012345  (índices)
+
+print(texto[0])   # P
+print(texto[1])   # y
+print(texto[5])   # n
+```
+
+Índices negativos contam do final:
+
+```python
+print(texto[-1])   # n (último)
+print(texto[-2])   # o (penúltimo)
+print(texto[-6])   # P (primeiro, de trás)
+```
+
+```python
+# Visualizando
+texto = "Python"
+# Índices positivos:  0 1 2 3 4 5
+# Caracteres:        P y t h o n
+# Índices negativos: -6-5-4-3-2-1
+```
+
+<Callout tipo="erro-comum">
+```python
+texto = "Python"
+print(texto[6])   # ERRO: IndexError
+# Válidos: 0 a 5 (6 caracteres)
+```
+Use `len()` para saber o tamanho.
+</Callout>
+
+## Fatiamento (slicing)
+
+Extraia uma parte da string.
+
+```python
+texto = "Python"
+#        012345
+
+print(texto[0:3])   # "Pyt" (do 0 até 2, 3 não inclui)
+print(texto[1:4])   # "yth" (do 1 até 3)
+print(texto[:3])    # "Pyt" (do início até 2)
+print(texto[3:])    # "hon" (do 3 até o fim)
+print(texto[::2])   # "Pto" (cada 2º caractere)
+print(texto[::-1])  # "nohtyP" (invertido!)
+```
+
+**Sintaxe:** `string[início:fim:passo]`
+- `início`: por padrão 0
+- `fim`: por padrão o tamanho (e não inclui)
+- `passo`: por padrão 1
+
+## Comprimento: função len()
+
+```python
+nome = "Ana Silva"
+print(len(nome))      # 9
+
+if len(nome) < 20:
+    print("Nome curto")
+```
+
+## Métodos de string (os mais úteis)
+
+Métodos são funções que pertencem a um objeto. Use com ponto:
+
+### upper() e lower()
+
+```python
+frase = "Olá, Mundo!"
+print(frase.upper())      # OLÁ, MUNDO!
+print(frase.lower())      # olá, mundo!
+print(frase.capitalize()) # Olá, mundo! (só primeira letra)
+```
+
+### strip() - remove espaços nas pontas
+
+```python
+texto = "  Ana  "
+print(f"|"{texto.strip()}|  # |Ana|
+print(f"|"{texto}|        # |  Ana  | (original)
+```
+
+Útil quando recebe entrada do usuário:
+
+```python
+nome = input("Nome: ").strip()  # Remove espaços acidentais
+```
+
+### split() - divide em partes
+
+```python
+frase = "Python é incrível"
+palavras = frase.split()  # Divide por espaço
+print(palavras)  # ['Python', 'é', 'incrível']
+
+# Dividir por outro caractere
+data = "25/12/2023"
+partes = data.split("/")
+print(partes)  # ['25', '12', '2023']
+```
+
+### join() - junta com separador
+
+```python
+palavras = ["Python", "é", "incrível"]
+frase = " ".join(palavras)
+print(frase)  # "Python é incrível"
+
+# Junta com outros separadores
+numeros = ["1", "2", "3"]
+print("-".join(numeros))  # "1-2-3"
+```
+
+### replace() - substitui texto
+
+```python
+texto = "Amo Python Python Python"
+print(texto.replace("Python", "JavaScript"))  # Amo JavaScript JavaScript JavaScript
+print(texto.replace("Python", "Java", 1))     # Amo Java Python Python (só 1ª ocorrência)
+```
+
+### find() - procura por substring
+
+```python
+texto = "Python é ótimo"
+print(texto.find("ótimo"))    # 10 (posição onde começa)
+print(texto.find("Java"))     # -1 (não encontrado)
+print("ótimo" in texto)       # True (jeito mais fácil)
+```
+
+### startswith() e endswith()
+
+```python
+email = "usuario@gmail.com"
+
+if email.endswith(".com"):
+    print("Email válido")
+
+arquivo = "foto.jpg"
+if arquivo.startswith("foto"):
+    print("Começa com 'foto'")
+```
+
+## F-strings (formatted strings)
+
+A forma moderna de colocar variáveis em texto.
+
+```python
+nome = "Ana"
+idade = 25
+
+# Antigo (não use mais)
+print("Meu nome é " + nome + " e tenho " + str(idade) + " anos")
+
+# Novo (f-string)
+print(f"Meu nome é {nome} e tenho {idade} anos")
+```
+
+### Formatação dentro de f-strings
+
+```python
+preco = 19.999
+print(f"Preço: R$ {preco:.2f}")  # R$ 20.00
+
+numero = 42
+print(f"Número: {numero:05d}")   # Número: 00042
+
+porcento = 0.857
+print(f"Taxa: {porcento:.1%}")   # Taxa: 85.7%
+```
+
+### Expressões dentro de f-strings
+
+```python
+x = 10
+y = 5
+print(f"Soma: {x + y}")         # Soma: 15
+print(f"Maior: {max(x, y)}")    # Maior: 10
+print(f"Nome em maiúscula: {nome.upper()}")  # NOME EM MAIÚSCULA: ANA
+```
+
+## Imutabilidade de strings
+
+**Strings não podem ser modificadas.** Cada operação cria uma nova string.
+
+```python
+texto = "Python"
+# Não pode fazer: texto[0] = "J"  # ERRO!
+
+# Solução: criar uma nova string
+texto = "J" + texto[1:]  # "Jython"
+```
+
+Isso é importante para performance em operações grandes.
+
+## Strings multilinha
+
+```python
+mensagem = """Olá!
+Este é um programa em Python.
+Muito legal, não é?"""
+
+print(mensagem)
+# Saída:
+# Olá!
+# Este é um programa em Python.
+# Muito legal, não é?
+```
+
+## Exemplo: processador de nomes
+
+```python
+nome_completo = "  joão silva santos  "
+
+# Limpar e normalizar
+nome = nome_completo.strip().title()  # "João Silva Santos"
+
+# Dividir
+partes = nome.split()
+principe = partes[0]   # "João"
+sobrenome = partes[-1] # "Santos"
+
+# Criar email
+email = f"{nome.lower().replace(' ', '.')}@empresa.com"
+# "joão.silva.santos@empresa.com"
+
+print(f"Olá, {primeiro}!")
+print(f"Email: {email}")
+```
+
+## Quiz
+
+<Quiz questions={[
+  { id: '1', question: 'Qual é `"Python"[0]`?', options: [{ texto: '"P"', correta: true }, { texto: '"y"', correta: false }, { texto: 'erro', correta: false }], explanation: 'Índice 0 é o primeiro caractere.' },
+  { id: '2', question: 'Qual é `"Hello"[:3]`?', options: [{ texto: '"Hel"', correta: true }, { texto: '"Hello"', correta: false }, { texto: '"llo"', correta: false }], explanation: 'Fatiamento [0:3] pega indices 0, 1, 2.' },
+  { id: '3', question: 'O que `"  Ana  ".strip()` retorna?', options: [{ texto: '"Ana"', correta: true }, { texto: '"  Ana  "', correta: false }, { texto: 'erro', correta: false }], explanation: '`.strip()` remove espaços nas pontas.' },
+  { id: '4', question: 'Como você colocaria `x=5` em uma string?', options: [{ texto: 'f"x={x}"', correta: true }, { texto: '"x=x"', correta: false }, { texto: '"x=" + x', correta: false }], explanation: 'f-strings permitem expresões dentro de {}.' },
+]} />
+
+## Resumo
+
+- Strings são sequências de caracteres
+- Indexação: `str[0]`, `str[-1]`
+- Fatiamento: `str[início:fim:passo]`
+- Métodos úteis: `upper()`, `lower()`, `split()`, `join()`, `replace()`, `find()`, `strip()`
+- **F-strings** para interpolação: `f"Olá {nome}"`
+- Strings são imutáveis
+- Próximo: **entrada e saída** (input/output)

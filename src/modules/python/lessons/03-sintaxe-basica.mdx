@@ -1,0 +1,177 @@
+---
+titulo: Sintaxe básica e estrutura de código
+descricao: Indentação, comentários, PEP 8 e como Python lê o código.
+secao: Primeiros passos
+ordem: 3
+tempo: 7
+nivel: iniciante
+palavrasChave: ['indentação', 'comentários', 'PEP8', 'REPL', 'case-sensitive']
+exercicios: []
+---
+
+# Sintaxe básica e estrutura de código
+
+Python tem regras simples, mas **obrigatórias**. Vamos conhecê-las.
+
+## Indentação: a regra de ouro
+
+Em Python, **espaços em branco importam**. Indentação define blocos de código.
+
+```python
+idade = int(input("Idade: "))
+if idade >= 18:  # dois-pontos marca o início
+    print("Você é maior de idade")  # indentado: faz parte do if
+    print("Pode votar")
+else:  # volta ao nível anterior
+    print("Você é menor de idade")
+```
+
+<Callout tipo="erro-comum">
+Erro clássico: misturar **espaços** e **tabs**.
+
+✅ Use **4 espaços** por nível (ou configure seu editor).
+❌ Nunca misture espaços com tabs.
+</Callout>
+
+Muitos editores convertam tabs em espaços automaticamente. Verifique a configuração.
+
+## Comentários
+
+Comentários são ignorados pelo Python. Use para explicar o código.
+
+```python
+# Comentário de uma linha
+
+# Calcular o preço com desconto
+preco = 100
+desconto = 0.1  # 10%
+preco_final = preco * (1 - desconto)
+print(preco_final)  # Resultado: 90.0
+```
+
+### Comentários multilinha
+
+```python
+"""
+Este é um comentário de múltiplas linhas.
+Usado para explicar funções ou seções grandes.
+Também chamado de docstring.
+"""
+```
+
+## Case-sensitive: maiúsculas vs minúsculas
+
+Python diferencia maiúsculas de minúsculas:
+
+```python
+nome = "Ana"
+Nome = "Bruno"
+print(nome)   # Ana
+print(Nome)   # Bruno
+
+print(nome == Nome)  # False, são variáveis diferentes
+```
+
+<Callout tipo="erro-comum">
+```python
+print("Oi")  # funciona
+print(Print("Oi"))  # erro: Print não existe (com P maiúsculo)
+print(PRINT("Oi"))  # erro: PRINT não existe
+```
+Sempre use `print()` em minúsculas.
+</Callout>
+
+## Quebra de linhas
+
+### Quebra automática
+
+Depois de `:`, `(`, `[`, `{` e `,`, Python entende que a linha continua:
+
+```python
+numeros = [
+    1, 2, 3,
+    4, 5, 6
+]
+
+resultado = (
+    10 + 20 +
+    30 + 40
+)
+```
+
+### Quebra manual com `\`
+
+```python
+total = 100 + 200 + \
+        300 + 400
+print(total)  # 1000
+```
+
+Mas isso é menos legível. Prefira parênteses.
+
+## PEP 8: O guia de estilo
+
+**PEP** = Python Enhancement Proposal. **PEP 8** é o guia de estilo oficial.
+
+Princípios principais:
+
+| Regra | Exemplo ✅ | Errado ❌ |
+| --- | --- | --- |
+| Nomes de variáveis | `preco_final` | `precoFinal`, `PrecoFinal` |
+| Constantes | `MAX_TENTATIVAS = 3` | `maxTentativas = 3` |
+| Máximo 79 caracteres por linha | Quebra se ficar grande | Linhas gigantes |
+| Espaço ao redor de operadores | `x = 5 + 3` | `x=5+3` |
+| Sem espaço antes de `,` | `print(a, b)` | `print(a , b)` |
+| 2 linhas em branco entre funções | (veremos depois) | (veremos depois) |
+
+<Callout tipo="dica">
+Use **linters** como `black` ou `ruff` para formatar automático:
+```bash
+pip install black
+black seu_arquivo.py
+```
+</Callout>
+
+## REPL: testando código ao vivo
+
+Abra o terminal e digite `python`:
+
+```python
+>>> 2 + 2
+4
+>>> x = 10
+>>> x * 2
+20
+>>> exit()
+```
+
+Otimo para testes rápidos sem criar um arquivo.
+
+## Um programa bem formatado
+
+```python
+# Constantes
+MAX_IDADE = 120
+MIN_IDADE = 0
+
+# Programa principal
+nome = input("Nome: ")
+idade = int(input("Idade: "))
+
+# Validação
+if MIN_IDADE <= idade <= MAX_IDADE:
+    print(f"Bem-vindo, {nome}!")
+else:
+    print("Idade inválida")
+```
+
+## Resumo
+
+- **Indentação** define blocos (use 4 espaços)
+- **Comentários** explicam o código (`#` e `"""...""")`)
+- Python é **case-sensitive**
+- Quebras de linha após `:`, `(`, `[`, `{`
+- **PEP 8** é o padrão de estilo
+- Teste rápido no **REPL**
+
+Agora vamos para os **fundamentos**: variáveis e tipos!

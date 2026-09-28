@@ -1,0 +1,239 @@
+---
+titulo: Operadores aritméticos e lógicos
+descricao: +, -, *, /, //, %, **, comparação, and, or, not, precedência.
+secao: Fundamentos
+ordem: 5
+tempo: 10
+nivel: iniciante
+palavrasChave: ['operadores', 'aritmética', 'lógica', 'precedência', 'módulo']
+exercicios: []
+---
+
+# Operadores aritméticos e lógicos
+
+## Operadores aritméticos
+
+Usados para cálculos matemáticos.
+
+### Básicos
+
+```python
+print(10 + 5)      # 15 (adição)
+print(10 - 5)      # 5 (subtração)
+print(10 * 5)      # 50 (multiplicação)
+print(10 / 5)      # 2.0 (divisão, sempre retorna float)
+print(10 // 3)     # 3 (divisão inteira, descarta decimal)
+print(10 % 3)      # 1 (módulo, resto da divisão)
+print(2 ** 3)      # 8 (potência)
+```
+
+<Callout tipo="dica">
+**Divisão inteira (`//`) vs divisão normal (`/`):**
+- `10 / 3` = `3.333...` (float)
+- `10 // 3` = `3` (int, descarta resto)
+
+Use `//` quando precisa só do inteiro.
+</Callout>
+
+### Módulo: útil para encontrar padrões
+
+```python
+# Número par ou ímpar?
+numero = 7
+if numero % 2 == 0:
+    print("Par")
+else:
+    print("Ímpar")  # Saída: Ímpar
+
+# Último dígito
+num = 12345
+ultimo_digito = num % 10
+print(ultimo_digito)  # 5
+```
+
+## Operadores de comparação
+
+Retornam `True` ou `False`.
+
+```python
+print(10 > 5)      # True (maior que)
+print(10 < 5)      # False (menor que)
+print(10 >= 10)    # True (maior ou igual)
+print(10 <= 9)     # False (menor ou igual)
+print(10 == 10)    # True (igual)
+print(10 != 9)     # True (diferente)
+```
+
+### Comparação encadeada
+
+```python
+idade = 25
+
+# É intuitivo: idade entre 18 e 65?
+if 18 <= idade <= 65:
+    print("Idade ativa")
+
+# Equivalente em outras linguagens:
+# if (idade >= 18 && idade <= 65)
+```
+
+## Operadores lógicos
+
+Combina condições booleanas.
+
+### and (E lógico)
+
+Todas as condições devem ser verdadeiras.
+
+```python
+idade = 25
+tem_carteira = True
+
+if idade >= 18 and tem_carteira:
+    print("Pode dirigir")  # Executa
+else:
+    print("Não pode")
+```
+
+### or (OU lógico)
+
+Pelo menos uma condição deve ser verdadeira.
+
+```python
+fim_de_semana = False
+ferado = True
+
+if fim_de_semana or ferado:
+    print("Não trabalha hoje")  # Executa (feriadoé True)
+```
+
+### not (NÃO lógico)
+
+Inverte o resultado.
+
+```python
+tem_dinheiro = False
+
+if not tem_dinheiro:
+    print("Precisa pedir emprestado")  # Executa
+```
+
+## Tabela de verdade
+
+| A | B | A and B | A or B | not A |
+| --- | --- | --- | --- | --- |
+| True | True | True | True | False |
+| True | False | False | True | False |
+| False | True | False | True | True |
+| False | False | False | False | True |
+
+## Precedência de operadores
+
+Os operadores são avaliados em uma ordem específica (como na matemática).
+
+```python
+print(2 + 3 * 4)     # 14, não 20 (* antes de +)
+print((2 + 3) * 4)   # 20 (parênteses primeiro)
+
+print(10 > 5 and 3 < 2)  # False (comparação antes de and)
+```
+
+**Ordem (do maior ao menor precedência):**
+1. `**` (potência)
+2. `*`, `/`, `//`, `%` (multiplicação e divisão)
+3. `+`, `-` (adição e subtração)
+4. `==`, `!=`, `<`, `>`, `<=`, `>=` (comparação)
+5. `not`
+6. `and`
+7. `or`
+
+**Use parênteses quando tiver dúvida!**
+
+## Atribuição composta
+
+Combina operação e atribuição.
+
+```python
+x = 10
+x += 5      # x = x + 5
+print(x)    # 15
+
+x -= 3      # x = x - 3
+print(x)    # 12
+
+x *= 2      # x = x * 2
+print(x)    # 24
+
+x //= 4     # x = x // 4
+print(x)    # 6
+```
+
+## Armadilha: arredondamento de floats
+
+Computadores não armazenam decimais perfeitamente em binário.
+
+```python
+print(0.1 + 0.2)         # 0.30000000000000004 (eba!)
+print(0.1 + 0.2 == 0.3)  # False (surpresa!)
+
+# Solução 1: arredondar
+print(round(0.1 + 0.2, 1) == 0.3)  # True
+
+# Solução 2: usar Decimal
+from decimal import Decimal
+resultado = Decimal('0.1') + Decimal('0.2')
+print(resultado)  # 0.3 (perfeito)
+```
+
+<Callout tipo="erro-comum">
+Nunca compare floats com `==` diretamente:
+```python
+# ❌ Pode dar erro
+if preco == 19.99:
+    print("Preço exato")
+
+# ✅ Use arredondamento ou Decimal
+if round(preco, 2) == 19.99:
+    print("Preço exato")
+```
+</Callout>
+
+## Exemplo: calculadora de desconto com validações
+
+```python
+preco = float(input("Preço: R$ "))
+porcento_desconto = float(input("Desconto %: "))
+
+# Validações
+if preco > 0 and 0 <= porcento_desconto <= 100:
+    valor_desconto = preco * (porcento_desconto / 100)
+    preco_final = preco - valor_desconto
+    
+    print(f"Preço original: R$ {preco:.2f}")
+    print(f"Desconto: R$ {valor_desconto:.2f}")
+    print(f"Preço final: R$ {preco_final:.2f}")
+else:
+    print("Valores inválidos")
+```
+
+## Quiz
+
+<Quiz questions={[
+  { id: '1', question: 'Qual é o resultado de `10 // 3`?', options: [{ texto: '3', correta: true }, { texto: '3.33', correta: false }, { texto: '1', correta: false }], explanation: '`//` é divisão inteira, descarta o decimal.' },
+  { id: '2', question: 'O que `15 % 4` retorna?', options: [{ texto: '3', correta: true }, { texto: '3.75', correta: false }, { texto: '4', correta: false }], explanation: 'Módulo retorna o resto: 15 ÷ 4 = 3 resto 3.' },
+  { id: '3', question: 'Qual é o resultado de `True and False`?', options: [{ texto: 'True', correta: false }, { texto: 'False', correta: true }, { texto: 'erro', correta: false }], explanation: '`and` retorna True só se TODOS são True.' },
+  { id: '4', question: '`10 > 5 and 3 > 2` é?', options: [{ texto: 'True', correta: true }, { texto: 'False', correta: false }], explanation: 'Ambas condições são verdadeiras, então `and` retorna True.' },
+]} />
+
+## Resumo
+
+- Operadores aritméticos: `+`, `-`, `*`, `/`, `//`, `%`, `**`
+- Divisão inteira (`//`) vs normal (`/`)
+- Módulo (`%`) para encontrar restos e padrões
+- Operadores de comparação: `==`, `!=`, `<`, `>`, `<=`, `>=`
+- Operadores lógicos: `and`, `or`, `not`
+- **Precedência** importa: use parênteses para clareza
+- Cuidado com floats: problemas de arredondamento
+- Próximo: **strings** e texto
+
+<Desafio id="completar-pares" titulo="Complete a lista de pares" descricao="Filtre números pares usando operadores." modulo="python" />

@@ -1,0 +1,236 @@
+---
+titulo: Variáveis e tipos de dados
+descricao: int, float, str, bool, None, atribuição múltipla e type().
+secao: Fundamentos
+ordem: 4
+tempo: 10
+nivel: iniciante
+palavrasChave: ['variáveis', 'tipos', 'int', 'float', 'str', 'bool', 'None']
+exercicios: ['soma-dois-numeros']
+---
+
+# Variáveis e tipos de dados
+
+## O que é uma variável?
+
+Uma **variável** é um "rótulo" ou "etiqueta" que aponta para um valor na memória.
+
+Pense em uma caixa com um nome escrito. Dentro, há um valor.
+
+```python
+idade = 25
+```
+
+Aqui, `idade` é o rótulo e `25` é o valor guardado.
+
+<Callout tipo="dica">
+Variáveis em Python **não precisam de tipo declarado**. Python descobre o tipo automaticamente (tipagem dinâmica).
+
+Em linguagens como Java, você escreve: `int idade = 25;`
+Em Python: `idade = 25`
+</Callout>
+
+## Os 5 tipos básicos
+
+### 1. int (inteiro)
+
+Números sem decimal.
+
+```python
+idade = 25
+temperatura = -5
+infininito = 999999999999
+zero = 0
+```
+
+### 2. float (ponto flutuante)
+
+Números com decimal.
+
+```python
+preco = 19.90
+temperatura = 36.5
+juro = 0.05
+```
+
+### 3. str (string)
+
+Texto. Delimitado por aspas simples ou duplas.
+
+```python
+nome = "Ana Silva"
+saudacao = 'Olá!'
+mensagem = """Isso é uma
+string multilinha"""
+```
+
+### 4. bool (booleano)
+
+Verdadeiro ou falso.
+
+```python
+maior_idade = True
+tem_dinheiro = False
+```
+
+### 5. None (nulo)
+
+Representa ausência de valor.
+
+```python
+resposta = None
+
+if resposta is None:
+    print("Sem resposta ainda")
+```
+
+## Função type(): descobrir o tipo
+
+Use `type()` para ver qual é o tipo de uma variável:
+
+```python
+print(type(25))           # <class 'int'>
+print(type(25.5))         # <class 'float'>
+print(type("texto"))      # <class 'str'>
+print(type(True))         # <class 'bool'>
+print(type(None))         # <class 'NoneType'>
+```
+
+## Conversão de tipos (casting)
+
+Você pode converter um tipo em outro:
+
+```python
+# string para int
+idade_texto = "25"
+idade = int(idade_texto)
+print(idade + 5)  # 30
+
+# int para float
+numero = 10
+flutuante = float(numero)
+print(flutuante)  # 10.0
+
+# número para string
+idade = 30
+texto = str(idade)
+print("Tenho " + texto + " anos")  # Tenho 30 anos
+
+# bool para int
+ativo = True
+print(int(ativo))  # 1
+print(int(False))  # 0
+```
+
+<Callout tipo="erro-comum">
+Não confunda:
+```python
+idadeTexto = "25"
+idade = int(idadeTexto)  # OK: "25" → 25
+idade = int("abc")       # ERRO: não consegue converter
+```
+</Callout>
+
+## Atribuição múltipla (desempacotamento)
+
+Atribua vários valores de uma vez:
+
+```python
+x, y, z = 1, 2, 3
+print(x)  # 1
+print(y)  # 2
+
+# Trocar valores
+a, b = 5, 10
+a, b = b, a  # Python permite isso!
+print(a, b)  # 10 5
+```
+
+## Nomes válidos para variáveis
+
+✅ **Válido:**
+```python
+nome = "Ana"
+_idade = 25          # começa com underscore
+idadeUsuario = 30    # camelCase (menos comum em Python)
+idade_usuario = 30   # snake_case (padrão Python)
+idade2 = 20          # com números (mas não no início)
+```
+
+❌ **Inválido:**
+```python
+2idade = 20          # não pode começar com número
+idade-usuario = 30   # hífen não é permitido (confunde com subtração)
+idadeUsuário = 30    # acentuação: evite
+if = 5               # "if" é palavra-chave reservada
+```
+
+<Callout tipo="dica">
+Use **snake_case** (com underscore) para variáveis em Python:
+- ✅ `preco_final`
+- ❌ `precoFinal`
+</Callout>
+
+## Variáveis como rótulos (referência)
+
+Variáveis apontam para valores. Múltiplas variáveis podem apontar para o mesmo valor:
+
+```python
+x = 10
+y = x      # y também aponta para 10
+print(x, y)  # 10 10
+
+x = 20     # x agora aponta para 20
+print(x, y)  # 20 10 (y continua apontando para 10)
+```
+
+Isso será mais importante com listas e objetos.
+
+## Exemplo prático: calculadora de compras
+
+```python
+# Dados do cliente
+nome_cliente = "Maria"
+itens_comprados = 5
+preco_item = 29.90
+
+# Cálculos
+total = itens_comprados * preco_item
+desconto = total * 0.1  # 10% de desconto
+total_final = total - desconto
+
+# Saída
+print(f"Cliente: {nome_cliente}")
+print(f"Itens: {itens_comprados}")
+print(f"Total: R$ {total:.2f}")
+print(f"Desconto: R$ {desconto:.2f}")
+print(f"Total final: R$ {total_final:.2f}")
+```
+
+Saída:
+```
+Cliente: Maria
+Itens: 5
+Total: R$ 149.50
+Desconto: R$ 14.95
+Total final: R$ 134.55
+```
+
+## Quiz
+
+<Quiz questions={[
+  { id: '1', question: 'Qual é o tipo de `25.5`?', options: [{ texto: 'int', correta: false }, { texto: 'float', correta: true }, { texto: 'str', correta: false }], explanation: '`25.5` tem um ponto decimal, então é float.' },
+  { id: '2', question: 'O que `int("30")` retorna?', options: [{ texto: '"30" (string)', correta: false }, { texto: '30 (inteiro)', correta: true }, { texto: 'erro', correta: false }], explanation: '`int()` converte texto em número inteiro.' },
+  { id: '3', question: 'Qual é o padrão de nomes em Python?', options: [{ texto: 'camelCase', correta: false }, { texto: 'PascalCase', correta: false }, { texto: 'snake_case', correta: true }], explanation: 'Python prefere `snake_case` para variáveis (com underscores).' },
+]} />
+
+## Resumo
+
+- **Variáveis** são rótulos que apontam para valores
+- Tipos: `int`, `float`, `str`, `bool`, `None`
+- `type()` mostra o tipo de uma variável
+- Conversão: `int()`, `float()`, `str()`
+- Padrão Python: `snake_case`
+- Próximo: **operadores aritméticos e lógicos**
+
+<Desafio id="soma-dois-numeros" titulo="Some dois números" descricao="Crie uma função que receba dois números e retorne a soma deles." modulo="python" />
