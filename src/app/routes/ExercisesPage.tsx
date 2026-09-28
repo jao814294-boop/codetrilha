@@ -1,13 +1,26 @@
-import { useParams } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Search, SlidersHorizontal, CheckCircle2, Circle, Flame, Trophy } from 'lucide-react';
+import { getExercises } from '@/modules/exerciseCatalog';
+import useProgressStore from '@/store/progress';
+
+type Filter = 'todos' | 'facil' | 'medio' | 'dificil';
+type Status = 'todos' | 'nao-iniciado' | 'tentado' | 'resolvido';
+const labels = { facil: 'Fácil', medio: 'Médio', dificil: 'Difícil' };
 
 export default function ExercisesPage() {
-  const { modulo } = useParams();
-
-  return (
-    <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
-      <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Exercícios</p>
-      <h1 className="mt-2 font-display text-3xl font-bold text-white">{modulo}</h1>
-      <p className="mt-3 text-slate-300">Lista de exercícios será carregada a partir de arquivos JSON em uma próxima etapa.</p>
-    </section>
-  );
+  const { modulo = 'python' } = useParams();
+  const exercises = getExercises(modulo);
+  const { xp, streak, solvedExercises, exerciseAttempts } = useProgressStore();
+  const [query, setQuery] = useState(''); const [difficulty, setDifficulty] = useState<Filter>('todos'); const [status, setStatus] = useState<Status>('todos');
+  const topics = useMemo(() => ['todos', ...new Set(exercises.map((item) => item.topico))], [exercises]);
+  const [topic, setTopic] = useState('todos');
+  const filtered = exercises.filter((item) => { const itemStatus = solvedExercises.includes(item.id) ? 'resolvido' : (exerciseAttempts[item.id] ?? 0) > 0 ? 'tentado' : 'nao-iniciado'; return (difficulty === 'todos' || item.dificuldade === difficulty) && (status === 'todos' || itemStatus === status) && (topic === 'todos' || item.topico === topic) && `${item.titulo} ${item.enunciado} ${item.tags.join(' ')}`.toLowerCase().includes(query.toLowerCase()); });
+  const solved = exercises.filter((item) => solvedExercises.includes(item.id)).length;
+  const percent = exercises.length ? Math.round((solved / exercises.length) * 100) : 0;
+  return <section className="space-y-6 py-4">
+    <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs uppercase tracking-[0.2em] text-cyan-300">Prática · {modulo}</p><h1 className="mt-2 font-display text-4xl font-bold text-white">Exercícios</h1><p className="mt-2 text-slate-400">Resolva problemas, teste ideias e construa confiança.</p></div><div className="flex gap-3 text-sm"><span className="rounded-xl border border-white/10 bg-white/5 px-3 py-2"><Trophy className="mr-1 inline h-4 w-4 text-amber-300" />{xp} XP</span><span className="rounded-xl border border-white/10 bg-white/5 px-3 py-2"><Flame className="mr-1 inline h-4 w-4 text-orange-300" />{streak} dias</span></div></div>
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-4"><div className="mb-2 flex justify-between text-sm text-slate-300"><span>{solved} de {exercises.length} resolvidos</span><span>{percent}%</span></div><div className="h-2 overflow-hidden rounded-full bg-slate-800"><div className="h-full bg-gradient-to-r from-cyan-500 to-violet-500" style={{ width: `${percent}%` }} /></div></div>
+    <div className="grid gap-3 md:grid-cols-[1fr_auto_auto_auto]"><label className="relative"><Search className="absolute left-3 top-3 h-4 w-4 text-slate-500" /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar exercícios..." className="w-full rounded-xl border border-white/10 bg-slate-900 px-10 py-2.5 text-sm text-white placeholder:text-slate-500" /></label><select value={difficulty} onChange={(e) => setDifficulty(e.target.value as Filter)} className="rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-sm text-slate-300"><option value="todos">Todas dificuldades</option>{Object.entries(labels).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select><select value={topic} onChange={(e) => setTopic(e.target.value)} className="rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-sm text-slate-300"><option value="todos">Todos tópicos</option>{topics.slice(1).map((item) => <option key={item}>{item}</option>)}</select><select value={status} onChange={(e) => setStatus(e.target.value as Status)} className="rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-sm text-slate-300"><option value="todos">Todos status</option><option value="nao-iniciado">Não iniciado</option><option value="tentado">Tentado</option><option value="resolvido">Resolvido</option></select></div>
+    <div className="grid gap-4 md:grid-cols-2">{filtered.map((item) => { const done = solvedExercises.includes(item.id); const attempted = (exerciseAttempts[item.id] ?? 0) > 0; return <Link key={item.id} to={`/${modulo}/exercicios/${item.id}`} className="group rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:-translate-y-1 hover:border-cyan-400/40"><div className="flex items-start justify-between gap-3"><div className="flex gap-3">{done ? <CheckCircle2 className="mt-1 h-5 w-5 text-emerald-400" /> : attempted ? <SlidersHorizontal className="mt-1 h-5 w-5 text-amber-300" /> : <Circle className="mt-1 h-5 w-5 text-slate-500" />}<div><h2 className="font-semibold text-white group-hover:text-cyan-300">{item.titulo}</h2><p className="mt-1 text-sm text-slate-400">{item.enunciado}</p></div></div><span className="whitespace-nowrap text-sm text-amber-300">+{item.xp} XP</span></div><div className="mt-4 flex gap-2 text-xs"><span className="rounded-full bg-cyan-500/10 px-2 py-1 text-cyan-300">{item.topico}</span><span className="rounded-full bg-white/10 px-2 py-1 text-slate-300">{labels[item.dificuldade]}</span><span className="rounded-full bg-white/10 px-2 py-1 text-slate-400">{done ? 'Resolvido' : attempted ? 'Tentado' : 'Não iniciado'}</span></div></Link>)}</div>{filtered.length === 0 && <div className="rounded-2xl border border-dashed border-white/15 p-10 text-center text-slate-400">Nenhum exercício encontrado.</div>}</section>;
 }
